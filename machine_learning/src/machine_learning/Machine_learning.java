@@ -19,8 +19,8 @@ public class Machine_learning {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException {
-        File file = new File("glass.data.txt");
-        Scanner in = new Scanner(file);
+        File glass = new File("glass.data.txt");
+        Scanner in = new Scanner(glass);
         while (in.hasNextLine()) {
             String line = in.nextLine();
             System.out.println(line);
