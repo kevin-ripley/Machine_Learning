@@ -15,7 +15,7 @@ import static java.nio.file.Files.lines;
  * @author Kevin Ripley
  */
 public class PreProcess {
-    File file = new File("myfile.txt");
+    File file = new File("glass.txt");
     String[] lines = new String[10];
     
         FileReader reader = new FileReader(file);
