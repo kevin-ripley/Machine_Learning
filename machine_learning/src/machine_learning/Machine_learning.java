@@ -23,9 +23,11 @@ public class Machine_learning {
      */
     static int count = 0;
     public static void main(String[] args) throws FileNotFoundException, IOException {
-    ArrayList<String> data = new ArrayList<>();
+        
+    ArrayList<Node> data = new ArrayList<>();
     FileReader process = new FileReader("glass.data.txt");
     Scanner scan = new Scanner(process);
+    
     // Set delimiters to space and comma.
     // ", *" tells Scanner to match a comma and zero or more spaces as
     // delimiters.
@@ -35,12 +37,13 @@ public class Machine_learning {
     
     // Read and add to ArrayList
     while (scan.hasNext()!= false) {
-                  data.add(scan.next());
+            //create new node and add to ArrayList
+                  //data.add(scan.next());
                    //System.out.println( data );
+                   count++;
                     
     }
-    
-
+        System.out.println(data);
     process.close ();
     }
 
