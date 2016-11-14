@@ -24,14 +24,17 @@ public class Node {
     public void displayNode() // display ourself
     {
         //System.out.print('{');
-        System.out.println(iData);
+        for(int i = 0; i < iData.size(); i++){
+        System.out.print(iData.get(i));
+        }
+        System.out.println("");
 //		System.out.print(", ");
 //		System.out.print(dData);
 //		System.out.print("} ");
     }
 
     public void parse(String dData) {
-        List<String> list = new ArrayList<String>(Arrays.asList(dData.split(",")));
+        List<String> list = new ArrayList<>(Arrays.asList(dData.split(",")));
         iData = (ArrayList<String>) list;
         iData.removeAll(Arrays.asList(null,""));
        
