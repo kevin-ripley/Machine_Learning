@@ -5,8 +5,10 @@
  */
 package machine_learning;
 
-
 import java.util.ArrayList;
+
+
+
 
 
 /**
@@ -14,9 +16,12 @@ import java.util.ArrayList;
  * @author Kevin Ripley
  */
 public class PreProcess {
-
+    Node n = new Node();
+   
     
-    public void processIt(ArrayList<String> s) {
-    
+    public void processIt() {
+        
+     
+       
 }
 }
