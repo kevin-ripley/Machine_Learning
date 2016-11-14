@@ -5,11 +5,12 @@
  */
 package machine_learning;
 
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -21,30 +22,27 @@ public class Machine_learning {
     /**
      * @param args the command line arguments
      */
-    static int count = 0;
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        
-    ArrayList<Node> data = new ArrayList<>();
-    FileReader process = new FileReader("glass.data.txt");
-    Scanner scan = new Scanner(process);
-    
-    // Set delimiters to space and comma.
-    // ", *" tells Scanner to match a comma and zero or more spaces as
-    // delimiters.
+        //new ArrayList<Node> data
+        PreProcess p = new PreProcess();
+        ArrayList<Node> data = new ArrayList<>();
+        FileReader process = new FileReader("iris.data.txt");
+        Scanner scan = new Scanner(process);
+        scan.useDelimiter("\n");
 
-    scan.useDelimiter (", *");
-    //scan.useDelimiter ("\n");
-    
-    // Read and add to ArrayList
-    while (scan.hasNext()!= false) {
+        // Read and add to ArrayList
+        while (scan.hasNext() != false) {
+            Node nd = new Node();
             //create new node and add to ArrayList
-                  //data.add(scan.next());
-                   //System.out.println( data );
-                   count++;
-                    
+            //scan.useDelimiter (",*");
+            data.add(nd);
+            nd.dData = scan.next();
+            nd.parse(nd.dData);
+            nd.displayNode();
+            //nd.processIt();
+        }
+        
+        process.close();
+        
     }
-        System.out.println(data);
-    process.close ();
-    }
-
 }
