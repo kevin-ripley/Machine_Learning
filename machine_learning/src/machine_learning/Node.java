@@ -16,29 +16,18 @@ import java.util.List;
 public class Node {
 
     //doubly linkedlist
-    public  ArrayList<String> iData; // data item (key)
-    public String dData; // data item
+    public  ArrayList<String> inputData; // data item (key)
     public Node leftChild; // this node's left child
     public Node rightChild; // this node's right child
 
     public void displayNode() // display ourself
     {
-        //System.out.print('{');
-        for(int i = 0; i < iData.size(); i++){
-        System.out.print(iData.get(i));
-        }
-        System.out.println("");
-//		System.out.print(", ");
-//		System.out.print(dData);
-//		System.out.print("} ");
+        
+       // System.out.println("");
     }
 
-    public void parse(String dData) {
-        List<String> list = new ArrayList<>(Arrays.asList(dData.split(",")));
-        iData = (ArrayList<String>) list;
-        iData.removeAll(Arrays.asList(null,""));
-       
+    public void setValue(String value) {
+        inputData = new ArrayList<>(Arrays.asList(value.split(",")));
     }
-
     
 }

@@ -21,28 +21,31 @@ public class Machine_learning {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        //new ArrayList<Node> data
-        PreProcess p = new PreProcess();
+        String[] files = new String[5];
+        files[0] = "house-votes-84.data.txt";
+        files[1] = "iris.data.txt";
+        PreProcess preProcess = new PreProcess();
         ArrayList<Node> data = new ArrayList<>();
-        FileReader process = new FileReader("iris.data.txt");
-        Scanner scan = new Scanner(process);
-        scan.useDelimiter("\n");
-
-        // Read and add to ArrayList
-        while (scan.hasNext() != false) {
-            Node nd = new Node();
-            //create new node and add to ArrayList
-            //scan.useDelimiter (",*");
-            data.add(nd);
-            nd.dData = scan.next();
-            nd.parse(nd.dData);
-            nd.displayNode();
-            //nd.processIt();
+        try (FileReader process = new FileReader(files[1])) {
+            Scanner scan = new Scanner(process);
+            scan.useDelimiter("\n");
+            
+            // Populate an array list of Nodes to be preprocess and given to an algorithm
+            while (scan.hasNext() != false) {
+                Node node = new Node();
+                node.setValue(scan.next());
+               // node.displayNode();
+                data.add(node);
+            }
+            
+            // Process our data/test set
+            preProcess.missingValues(data,files[1]);
+            preProcess.discretize(files[1], data);
+            preProcess.print(data);
         }
-        
-        process.close();
         
     }
 }
