@@ -13,10 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- *
- * @author kevinripley
- */
 public class Machine_learning {
 
     /**
@@ -32,20 +28,24 @@ public class Machine_learning {
         try (FileReader process = new FileReader(files[1])) {
             Scanner scan = new Scanner(process);
             scan.useDelimiter("\n");
-            
+
             // Populate an array list of Nodes to be preprocess and given to an algorithm
             while (scan.hasNext() != false) {
                 Node node = new Node();
                 node.setValue(scan.next());
-               // node.displayNode();
+                // node.displayNode();
                 data.add(node);
             }
-            
+
             // Process our data/test set
-            preProcess.missingValues(data,files[1]);
+            preProcess.missingValues(data, files[1]);
             preProcess.discretize(files[1], data);
-            preProcess.print(data);
+            //preProcess.print(data);
         }
         
+        //Start the NB Algorithm
+        NaiveBayes NB = new NaiveBayes(data, files[1]);
+        NB.setNBData();
+        NB.printClassList();
     }
 }
