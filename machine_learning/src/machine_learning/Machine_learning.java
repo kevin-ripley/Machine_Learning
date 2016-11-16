@@ -49,6 +49,7 @@ public class Machine_learning {
         NB.printClassList();
 
         //Start the Nearest Neighbor Algorithm
+        System.out.println(data.get(0).getValue());
         NearestNeighbor NN = new NearestNeighbor(data, files[1], 5);
 
     }

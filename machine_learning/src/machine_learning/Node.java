@@ -26,4 +26,8 @@ public class Node {
         inputData = new ArrayList<>(Arrays.asList(value.split(",")));
     }
     
+    public ArrayList<String> getValue() {
+        return inputData;
+    }
+    
 }

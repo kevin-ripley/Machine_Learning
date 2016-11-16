@@ -1,7 +1,7 @@
-
 package machine_learning;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
@@ -54,7 +54,7 @@ public class PreProcess {
             //we dont want the last value because we know that is the Class provided by the data
             for (int j = 0; j < current.size() - 1; j++) {
                 long rounded = Math.round(Double.parseDouble(current.get(j)));
-                current.set(j, rounded+"");
+                current.set(j, rounded + "");
             }
         }
     }
@@ -90,13 +90,88 @@ public class PreProcess {
     }
 
     /**
-     * Shuffle Data method randomly rearranges an array list
-     * @param d array list to be shuffled
-     * @return shuffled array list
+     * The stratify method stratifies the data set into halves with
+     * approximately equal class distribution. Due to time constraints, this
+     * only works for the given datasets in the assignment.
+     *
+     * @param file filename to be stratified
+     * @param d dataset as ArrayList<Node>
+     * @return Stratified list where index 0 to size/2 and size/2 to size have
+     * approximately the same class distribution
      */
     public ArrayList<Node> stratify(String file, ArrayList<Node> d) {
-        long seed = System.nanoTime();
-        Collections.shuffle(d, new Random(seed));
+        switch (file) {
+            case "iris.data.txt": {
+                return stratIris(d);
+            }
+            case "house-votes-84.data.txt": {
+                return stratHouse(d);
+            }
+            case "glass.data.txt": {
+                return stratGlass(d);
+            }
+            case "soybean-small.data.txt": {
+                return stratSoy(d);
+            }
+            case "breast-cancer-wisconsin.data.txt": {
+                return stratBCW(d);
+            }
+            default:
+                break;
+        }
+        return null;
+    }
+
+    /**
+     * Iris has 3 classifications, the sets will be sampled from accordingly
+     *
+     * @param d unstratified dataset of iris data
+     * @return stratified dataset of iris data
+     */
+    private ArrayList<Node> stratIris(ArrayList<Node> d) {
+        // set up lists for each class
+        ArrayList<Node> first = new ArrayList<>();
+        ArrayList<Node> second = new ArrayList<>();
+        int seto = 0;
+        int vers = 0;
+        int virg = 0;
+
+        // iterate through dataset and add matching classes to respective list
+        for (int i = 0; i < d.size(); i++) {
+            if (d.get(i).toString().contains("seto") && seto % 2 == 0) {
+                first.add(d.get(i));
+            } else if (d.get(i).toString().contains("vers") && vers % 2 == 0) {
+                first.add(d.get(i));
+            } else if (d.get(i).toString().contains("virg") && virg % 2 == 0) {
+                first.add(d.get(i));
+            } else {
+                second.add(d.get(i));
+            }
+        }
+
+        // clear and reform d from the two halves
+        d.clear();
+        for (int i = 0; i < first.size(); i++) 
+            d.add(first.get(i));
+        for (int j = 0; j < second.size(); j++)
+            d.add(second.get(j));
+        
+        return d;
+    }
+
+    private ArrayList<Node> stratHouse(ArrayList<Node> d) {
+        return d;
+    }
+
+    private ArrayList<Node> stratGlass(ArrayList<Node> d) {
+        return d;
+    }
+
+    private ArrayList<Node> stratSoy(ArrayList<Node> d) {
+        return d;
+    }
+
+    private ArrayList<Node> stratBCW(ArrayList<Node> d) {
         return d;
     }
 

@@ -24,10 +24,10 @@ public class NearestNeighbor {
         this.file = f;
         this.kVal = k;
     }
-
+    
     // methods
     private void getClassList(ArrayList<Node> list){
-
+            
     }
 
 
