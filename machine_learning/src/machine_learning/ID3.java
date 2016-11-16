@@ -9,11 +9,15 @@ import java.util.ArrayList;
  */
 public class ID3 {
 
-    // instance variables
+    // File name
     String file = "";
+    // Data to be supplied in the constructor
     ArrayList<Node> data;
+    // Test and training sets
     ArrayList<Node> test = new ArrayList<>();
     ArrayList<Node> train = new ArrayList<>();
+    // Set of attributes for gain evaluation
+    ArrayList<String> attributes = new ArrayList<>();
 
     // constructor
     public ID3(ArrayList<Node> d, String f) {
@@ -68,7 +72,9 @@ public class ID3 {
     }
 
     private void buildTree() {
-
+        // this is where you need to put the algorithm
+        // it's supposed to be recursive, so good luck with that.
+        // 
     }
 
     private void testTree() {
