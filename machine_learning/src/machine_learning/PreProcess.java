@@ -88,6 +88,11 @@ public class PreProcess {
             }
         }
     }
+    
+    public void shuffle(ArrayList<Node> d) {
+        long seed = System.nanoTime();
+        Collections.shuffle(d, new Random(seed));
+    }
 
     /**
      * The stratify method stratifies the data set into halves with
@@ -100,27 +105,31 @@ public class PreProcess {
      * @return Stratified list where index 0 to size/2 and size/2 to size have
      * approximately the same class distribution
      */
-    public ArrayList<Node> stratify(String file, ArrayList<Node> d) {
+    public void stratify(String file, ArrayList<Node> d) {
         switch (file) {
             case "iris.data.txt": {
-                return stratIris(d);
+                stratIris(d);
+                break;
             }
             case "house-votes-84.data.txt": {
-                return stratHouse(d);
+                stratHouse(d);
+                break;
             }
             case "glass.data.txt": {
-                return stratGlass(d);
+                stratGlass(d);
+                break;
             }
             case "soybean-small.data.txt": {
-                return stratSoy(d);
+                stratSoy(d);
+                break;
             }
             case "breast-cancer-wisconsin.data.txt": {
-                return stratBCW(d);
+                stratBCW(d);
+                break;
             }
             default:
                 break;
         }
-        return null;
     }
 
     /**
@@ -129,7 +138,7 @@ public class PreProcess {
      * @param d unstratified dataset of iris data
      * @return stratified dataset of iris data
      */
-    private ArrayList<Node> stratIris(ArrayList<Node> d) {
+    private void stratIris(ArrayList<Node> d) {
         // set up lists for each class
         ArrayList<Node> first = new ArrayList<>();
         ArrayList<Node> second = new ArrayList<>();
@@ -139,7 +148,9 @@ public class PreProcess {
 
         // iterate through dataset and add matching classes to respective list
         for (int i = 0; i < d.size(); i++) {
-            if (d.get(i).getValue().toString().contains("Iris-setosa")) {
+            if (d.get(i).getValue().isEmpty()) {
+                d.remove(i);
+            } else if (d.get(i).getValue().toString().contains("Iris-setosa")) {
                 if (seto % 2 == 0) {
                     first.add(d.get(i));
                 } else {
@@ -167,7 +178,6 @@ public class PreProcess {
         d.clear();
         first.addAll(second);
         d.addAll(first);
-        return d;
     }
 
     /**
@@ -175,7 +185,7 @@ public class PreProcess {
      * @param d
      * @return
      */
-    private ArrayList<Node> stratHouse(ArrayList<Node> d) {
+    private void stratHouse(ArrayList<Node> d) {
         ArrayList<Node> first = new ArrayList<>();
         ArrayList<Node> second = new ArrayList<>();
         int rep = 0;
@@ -203,10 +213,9 @@ public class PreProcess {
         d.clear();
         first.addAll(second);
         d.addAll(first);
-        return d;
     }
 
-    private ArrayList<Node> stratGlass(ArrayList<Node> d) {
+    private void stratGlass(ArrayList<Node> d) {
         ArrayList<Node> first = new ArrayList<>();
         ArrayList<Node> second = new ArrayList<>();
         for (int i = 0; i < d.size(); i++) {
@@ -215,10 +224,9 @@ public class PreProcess {
         d.clear();
         first.addAll(second);
         d.addAll(first);
-        return d;
     }
 
-    private ArrayList<Node> stratSoy(ArrayList<Node> d) {
+    private void stratSoy(ArrayList<Node> d) {
         ArrayList<Node> first = new ArrayList<>();
         ArrayList<Node> second = new ArrayList<>();
         for (int i = 0; i < d.size(); i++) {
@@ -227,10 +235,9 @@ public class PreProcess {
         d.clear();
         first.addAll(second);
         d.addAll(first);
-        return d;
     }
 
-    private ArrayList<Node> stratBCW(ArrayList<Node> d) {
+    private void stratBCW(ArrayList<Node> d) {
         ArrayList<Node> first = new ArrayList<>();
         ArrayList<Node> second = new ArrayList<>();
         for (int i = 0; i < d.size(); i++) {
@@ -239,7 +246,6 @@ public class PreProcess {
         d.clear();
         first.addAll(second);
         d.addAll(first);
-        return d;
     }
 
 }
