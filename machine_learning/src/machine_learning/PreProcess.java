@@ -2,6 +2,9 @@
 package machine_learning;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Random;
 
 public class PreProcess {
 
@@ -24,13 +27,17 @@ public class PreProcess {
 
     public void addValueBasedOnFile(String file, ArrayList<String> current, int i) {
         switch (file) {
-            // A ? in this case does not mean unidentified informaiton, just that there was not a Y or N. We will put these values into class o for other
+            // A ? in this case does not mean unidentified information, just that there was not a Y or N. We will put these values into class o for other
             case "house-votes-84.data.txt": {
                 current.set(i, "o");
                 break;
             }
             case "iris.data.txt": {
                 //do nothing, there is no missing data according to iris.names.txt
+                break;
+            }
+            case "breast-cancer-wisconsin.data.txt": {
+                // do something.
                 break;
             }
             default: {
@@ -80,6 +87,17 @@ public class PreProcess {
                 System.out.print(data.get(i).inputData.get(j));
             }
         }
+    }
+
+    /**
+     * Shuffle Data method randomly rearranges an array list
+     * @param d array list to be shuffled
+     * @return shuffled array list
+     */
+    public ArrayList<Node> stratify(String file, ArrayList<Node> d) {
+        long seed = System.nanoTime();
+        Collections.shuffle(d, new Random(seed));
+        return d;
     }
 
 }

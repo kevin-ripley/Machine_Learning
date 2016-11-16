@@ -47,5 +47,9 @@ public class Machine_learning {
         NaiveBayes NB = new NaiveBayes(data, files[1]);
         NB.setNBData();
         NB.printClassList();
+
+        //Start the Nearest Neighbor Algorithm
+        NearestNeighbor NN = new NearestNeighbor(data, files[1], 5);
+
     }
 }
