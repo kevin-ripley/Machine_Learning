@@ -148,9 +148,7 @@ public class PreProcess {
 
         // iterate through dataset and add matching classes to respective list
         for (int i = 0; i < d.size(); i++) {
-            if (d.get(i).getValue().isEmpty()) {
-                d.remove(i);
-            } else if (d.get(i).getValue().toString().contains("Iris-setosa")) {
+            if (d.get(i).getValue().toString().contains("Iris-setosa")) {
                 if (seto % 2 == 0) {
                     first.add(d.get(i));
                 } else {
@@ -341,24 +339,22 @@ public class PreProcess {
         }
     }
 
-    
-
     private void stratBCW(ArrayList<Node> d) {
         ArrayList<Node> first = new ArrayList<>();
         ArrayList<Node> second = new ArrayList<>();
         String temp;
         int x1 = 0;
         int x2 = 0;
-        
-        
+
         for (int i = 0; i < d.size(); i++) {
             temp = d.get(i).getValue().toString().substring(
                     d.get(i).getValue().toString().length() - 1);
             if (temp == "2") {
-                if (x1 % 2 == 0)
+                if (x1 % 2 == 0) {
                     first.add(d.get(i));
-                else
+                } else {
                     second.add(d.get(i));
+                }
                 x1++;
             } else {
                 if (x2 % 2 == 0) {

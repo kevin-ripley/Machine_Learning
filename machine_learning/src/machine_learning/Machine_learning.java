@@ -28,7 +28,7 @@ public class Machine_learning {
         files[4] = "breast-cancer-wisonsin.data.txt";
         PreProcess preProcess = new PreProcess();
         ArrayList<Node> data = new ArrayList<>();
-        try (FileReader process = new FileReader(files[0])) {
+        try (FileReader process = new FileReader(files[1])) {
             Scanner scan = new Scanner(process);
             scan.useDelimiter("\n");
 
@@ -41,19 +41,19 @@ public class Machine_learning {
             }
 
             // Process our data/test set
-            preProcess.missingValues(data, files[0]);
-            preProcess.discretize(files[0], data);
+            preProcess.missingValues(data, files[1]);
+            preProcess.discretize(files[1], data);
             //preProcess.print(data);
         }
 
         //Start the NB Algorithm
-        NaiveBayes NB = new NaiveBayes(data, files[0]);
+        NaiveBayes NB = new NaiveBayes(data, files[1]);
         NB.setNBData();
         NB.printClassList();
 
         //ArrayList<Node> test;
         preProcess.shuffle(data);
-        preProcess.stratify(files[0], data);
+        preProcess.stratify(files[1], data);
         for (int i = 0; i < data.size(); i++) {
             System.out.print(i);
             System.out.println(data.get(i).getValue());
