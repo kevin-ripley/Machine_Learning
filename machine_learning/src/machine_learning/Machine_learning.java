@@ -42,14 +42,22 @@ public class Machine_learning {
             preProcess.discretize(files[1], data);
             //preProcess.print(data);
         }
-        
+
         //Start the NB Algorithm
         NaiveBayes NB = new NaiveBayes(data, files[1]);
         NB.setNBData();
         NB.printClassList();
 
         //Start the Nearest Neighbor Algorithm
-        System.out.println(data.get(0).getValue());
+        ArrayList<Node> test;
+        preProcess.shuffle(data);
+        preProcess.stratify(files[1], data);
+        for (int i = 0; i < data.size(); i++) {
+            System.out.print(i);
+            System.out.println(data.get(i).getValue());
+        }
+
+
         NearestNeighbor NN = new NearestNeighbor(data, files[1], 5);
 
     }

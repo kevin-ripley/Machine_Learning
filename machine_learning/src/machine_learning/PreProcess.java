@@ -92,7 +92,8 @@ public class PreProcess {
     /**
      * The stratify method stratifies the data set into halves with
      * approximately equal class distribution. Due to time constraints, this
-     * only works for the given datasets in the assignment.
+     * only works for the given datasets in the assignment, and is meant to
+     * model 5x2 cross validation.
      *
      * @param file filename to be stratified
      * @param d dataset as ArrayList<Node>
@@ -138,50 +139,106 @@ public class PreProcess {
 
         // iterate through dataset and add matching classes to respective list
         for (int i = 0; i < d.size(); i++) {
-            if (d.get(i).toString().contains("seto")) {
-                if (seto % 2 == 0)
+            if (d.get(i).getValue().toString().contains("Iris-setosa")) {
+                if (seto % 2 == 0) {
                     first.add(d.get(i));
-                else 
+                } else {
                     second.add(d.get(i));
+                }
                 seto++;
-            } else if (d.get(i).toString().contains("vers")) {
-                if (vers % 2 == 0)
+            } else if (d.get(i).getValue().toString().contains("Iris-versicolor")) {
+                if (vers % 2 == 0) {
                     first.add(d.get(i));
-                else 
+                } else {
                     second.add(d.get(i));
+                }
                 vers++;
             } else {
-                if (virg % 2 == 0)
+                if (virg % 2 == 0) {
                     first.add(d.get(i));
-                else 
+                } else {
                     second.add(d.get(i));
+                }
                 virg++;
             }
         }
 
         // clear and reform d from the two halves
         d.clear();
-        for (int i = 0; i < first.size(); i++) 
-            d.add(first.get(i));
-        for (int j = 0; j < second.size(); j++)
-            d.add(second.get(j));
-        
+        first.addAll(second);
+        d.addAll(first);
         return d;
     }
 
+    /**
+     *
+     * @param d
+     * @return
+     */
     private ArrayList<Node> stratHouse(ArrayList<Node> d) {
+        ArrayList<Node> first = new ArrayList<>();
+        ArrayList<Node> second = new ArrayList<>();
+        int rep = 0;
+        int dem = 0;
+        // iterate though the list of data and add to two lists
+        for (int i = 0; i < d.size(); i++) {
+            if (d.get(i).toString().contains("republican")) {
+                if (rep % 2 == 0) {
+                    first.add(d.get(i));
+                } else {
+                    second.add(d.get(i));
+                }
+                rep++;
+            } else {
+                if (dem % 2 == 0) {
+                    first.add(d.get(i));
+                } else {
+                    second.add(d.get(i));
+                }
+                dem++;
+            }
+
+        }
+
+        d.clear();
+        first.addAll(second);
+        d.addAll(first);
         return d;
     }
 
     private ArrayList<Node> stratGlass(ArrayList<Node> d) {
+        ArrayList<Node> first = new ArrayList<>();
+        ArrayList<Node> second = new ArrayList<>();
+        for (int i = 0; i < d.size(); i++) {
+
+        }
+        d.clear();
+        first.addAll(second);
+        d.addAll(first);
         return d;
     }
 
     private ArrayList<Node> stratSoy(ArrayList<Node> d) {
+        ArrayList<Node> first = new ArrayList<>();
+        ArrayList<Node> second = new ArrayList<>();
+        for (int i = 0; i < d.size(); i++) {
+
+        }
+        d.clear();
+        first.addAll(second);
+        d.addAll(first);
         return d;
     }
 
     private ArrayList<Node> stratBCW(ArrayList<Node> d) {
+        ArrayList<Node> first = new ArrayList<>();
+        ArrayList<Node> second = new ArrayList<>();
+        for (int i = 0; i < d.size(); i++) {
+
+        }
+        d.clear();
+        first.addAll(second);
+        d.addAll(first);
         return d;
     }
 
