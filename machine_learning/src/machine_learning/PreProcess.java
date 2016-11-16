@@ -88,7 +88,7 @@ public class PreProcess {
             }
         }
     }
-    
+
     public void shuffle(ArrayList<Node> d) {
         long seed = System.nanoTime();
         Collections.shuffle(d, new Random(seed));
@@ -218,8 +218,69 @@ public class PreProcess {
     private void stratGlass(ArrayList<Node> d) {
         ArrayList<Node> first = new ArrayList<>();
         ArrayList<Node> second = new ArrayList<>();
-        for (int i = 0; i < d.size(); i++) {
+        int c0 = 0;
+        int c1 = 0;
+        int c2 = 0;
+        int c3 = 0;
+        int c4 = 0;
+        int c5 = 0;
 
+        for (int i = 0; i < d.size(); i++) {
+            switch (d.get(i).getValue().toString()) {
+                case "building_windows_float_processed": {
+                    if (c0 % 2 == 0) {
+                        first.add(d.get(i));
+                    } else {
+                        second.add(d.get(i));
+                    }
+                    c0++;
+                    break;
+                }
+                case "building_windows_non_float_processed": {
+                    if (c1 % 2 == 0) {
+                        first.add(d.get(i));
+                    } else {
+                        second.add(d.get(i));
+                    }
+                    c1++;
+                    break;
+                }
+                case "vehicle_windows_float_processed": {
+                    if (c2 % 2 == 0) {
+                        first.add(d.get(i));
+                    } else {
+                        second.add(d.get(i));
+                    }
+                    c2++;
+                    break;
+                }
+                case "containers": {
+                    if (c3 % 2 == 0) {
+                        first.add(d.get(i));
+                    } else {
+                        second.add(d.get(i));
+                    }
+                    c3++;
+                    break;
+                }
+                case "tableware": {
+                    if (c4 % 2 == 0) {
+                        first.add(d.get(i));
+                    } else {
+                        second.add(d.get(i));
+                    }
+                    c4++;
+                    break;
+                }
+                default: {
+                    if (c5 % 2 == 0) {
+                        first.add(d.get(i));
+                    } else {
+                        second.add(d.get(i));
+                    }
+                    c5++;
+                }
+            }
         }
         d.clear();
         first.addAll(second);
@@ -229,19 +290,84 @@ public class PreProcess {
     private void stratSoy(ArrayList<Node> d) {
         ArrayList<Node> first = new ArrayList<>();
         ArrayList<Node> second = new ArrayList<>();
-        for (int i = 0; i < d.size(); i++) {
+        int d1 = 0;
+        int d2 = 0;
+        int d3 = 0;
+        int d4 = 0;
 
+        for (int i = 0; i < d.size(); i++) {
+            switch (d.get(i).getValue().toString()) {
+                case "D1": {
+                    if (d1 % 2 == 0) {
+                        first.add(d.get(i));
+                    } else {
+                        second.add(d.get(i));
+                    }
+                    d1++;
+                    break;
+                }
+                case "D2": {
+                    if (d2 % 2 == 0) {
+                        first.add(d.get(i));
+                    } else {
+                        second.add(d.get(i));
+                    }
+                    d2++;
+                    break;
+                }
+                case "D3": {
+                    if (d3 % 2 == 0) {
+                        first.add(d.get(i));
+                    } else {
+                        second.add(d.get(i));
+                    }
+                    d3++;
+                    break;
+                }
+                default: {
+                    if (d4 % 2 == 0) {
+                        first.add(d.get(i));
+                    } else {
+                        second.add(d.get(i));
+                    }
+                    d4++;
+                    break;
+                }
+
+            }
+            d.clear();
+            first.addAll(second);
+            d.addAll(first);
         }
-        d.clear();
-        first.addAll(second);
-        d.addAll(first);
     }
+
+    
 
     private void stratBCW(ArrayList<Node> d) {
         ArrayList<Node> first = new ArrayList<>();
         ArrayList<Node> second = new ArrayList<>();
+        String temp;
+        int x1 = 0;
+        int x2 = 0;
+        
+        
         for (int i = 0; i < d.size(); i++) {
-
+            temp = d.get(i).getValue().toString().substring(
+                    d.get(i).getValue().toString().length() - 1);
+            if (temp == "2") {
+                if (x1 % 2 == 0)
+                    first.add(d.get(i));
+                else
+                    second.add(d.get(i));
+                x1++;
+            } else {
+                if (x2 % 2 == 0) {
+                    first.add(d.get(i));
+                } else {
+                    second.add(d.get(i));
+                }
+                x2++;
+            }
         }
         d.clear();
         first.addAll(second);

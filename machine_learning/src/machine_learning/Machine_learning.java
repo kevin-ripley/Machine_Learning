@@ -23,6 +23,9 @@ public class Machine_learning {
         String[] files = new String[5];
         files[0] = "house-votes-84.data.txt";
         files[1] = "iris.data.txt";
+        files[2] = "glass.data.txt";
+        files[3] = "soybean-small.data.txt";
+        files[4] = "breast-cancer-wisonsin.data.txt";
         PreProcess preProcess = new PreProcess();
         ArrayList<Node> data = new ArrayList<>();
         try (FileReader process = new FileReader(files[1])) {
@@ -48,17 +51,13 @@ public class Machine_learning {
         NB.setNBData();
         NB.printClassList();
 
-        //Start the Nearest Neighbor Algorithm
-        ArrayList<Node> test;
-        preProcess.shuffle(data);
-        preProcess.stratify(files[1], data);
-        for (int i = 0; i < data.size(); i++) {
-            System.out.print(i);
-            System.out.println(data.get(i).getValue());
-        }
-
-
-        NearestNeighbor NN = new NearestNeighbor(data, files[1], 5);
+//        ArrayList<Node> test;
+//        preProcess.shuffle(data);
+//        preProcess.stratify(files[1], data);
+//        for (int i = 0; i < data.size(); i++) {
+//            System.out.print(i);
+//            System.out.println(data.get(i).getValue());
+//        }
 
     }
 }
