@@ -22,8 +22,8 @@ public class ID3 {
     }
 
     /**
-     * The fiveXTwo Method runs 5x2 Fold Cross Validation on the dataset held
-     * by the current instance of ID3.
+     * The fiveXTwo Method runs a test using 5x2 Fold Cross Validation on the
+     * dataset held by the current instance of ID3.
      */
     public void fiveXTwo() {
         // repeat the two fold test 5 times
@@ -63,11 +63,10 @@ public class ID3 {
         test.clear();
         test.addAll(this.train);
         train.clear();
-        train.addAll(temp);  
+        train.addAll(temp);
         temp.clear();
     }
 
-    
     private void buildTree() {
 
     }
