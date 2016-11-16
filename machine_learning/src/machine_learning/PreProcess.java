@@ -139,13 +139,23 @@ public class PreProcess {
         // iterate through dataset and add matching classes to respective list
         for (int i = 0; i < d.size(); i++) {
             if (d.get(i).toString().contains("seto") && seto % 2 == 0) {
-                first.add(d.get(i));
+                if (seto % 2 == 0)
+                    first.add(d.get(i));
+                else 
+                    second.add(d.get(i));
+                seto++;
             } else if (d.get(i).toString().contains("vers") && vers % 2 == 0) {
-                first.add(d.get(i));
-            } else if (d.get(i).toString().contains("virg") && virg % 2 == 0) {
-                first.add(d.get(i));
+                if (vers % 2 == 0)
+                    first.add(d.get(i));
+                else 
+                    second.add(d.get(i));
+                vers++;
             } else {
-                second.add(d.get(i));
+                if (virg % 2 == 0)
+                    first.add(d.get(i));
+                else 
+                    second.add(d.get(i));
+                virg++;
             }
         }
 
