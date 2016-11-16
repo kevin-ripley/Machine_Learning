@@ -21,7 +21,10 @@ public class ID3 {
         this.file = f;
     }
 
-    // Methods :D
+    /**
+     * The fiveXTwo Method runs 5x2 Fold Cross Validation on the dataset held
+     * by the current instance of ID3.
+     */
     public void fiveXTwo() {
         // repeat the two fold test 5 times
         for (int i = 0; i < 5; i++) {
@@ -50,10 +53,21 @@ public class ID3 {
         }
     }
 
+    /**
+     * switchSets flips the training and test sets (basically just swaps names
+     * but there's not a really easy way to do that)
+     */
     private void switchSets() {
-
+        ArrayList<Node> temp = new ArrayList<>();
+        temp.addAll(this.test);
+        test.clear();
+        test.addAll(this.train);
+        train.clear();
+        train.addAll(temp);  
+        temp.clear();
     }
 
+    
     private void buildTree() {
 
     }
