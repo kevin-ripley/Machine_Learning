@@ -13,36 +13,57 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- *
- * @author kevinripley
- */
 public class Machine_learning {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        //new ArrayList<Node> data
-        PreProcess p = new PreProcess();
+        String[] files = new String[5];
+        files[0] = "house-votes-84.data.txt";
+        files[1] = "iris.data.txt";
+        files[2] = "glass.data.txt";
+        files[3] = "soybean-small.data.txt";
+        files[4] = "breast-cancer-wisconsin.data.txt";
+        PreProcess preProcess = new PreProcess();
         ArrayList<Node> data = new ArrayList<>();
-        FileReader process = new FileReader("iris.data.txt");
-        Scanner scan = new Scanner(process);
-        scan.useDelimiter("\n");
+        try (FileReader process = new FileReader(files[1])) {
+            Scanner scan = new Scanner(process);
+            scan.useDelimiter("\n");
 
-        // Read and add to ArrayList
-        while (scan.hasNext() != false) {
-            Node nd = new Node();
-            //create new node and add to ArrayList
-            //scan.useDelimiter (",*");
-            data.add(nd);
-            nd.dData = scan.next();
-            nd.parse(nd.dData);
-            nd.displayNode();
-            //nd.processIt();
+            // Populate an array list of Nodes to be preprocess and given to an algorithm
+            while (scan.hasNext() != false) {
+                Node node = new Node();
+                node.setValue(scan.next());
+                // node.displayNode();
+                data.add(node);
+            }
+            process.close();
+            // Process our data/test set for file 0 and 4
+            //preProcess.missingValues(data, files[0]);
+            preProcess.missingValues(data, files[1]);
+            // Do this for all files
+            preProcess.discretize(files[1], data);
+            //preProcess.print(data);
         }
         
-        process.close();
+        NearestNeighbor nn = new NearestNeighbor(data, files[1]);
+        nn.setNNData();
         
+        //Start the NB Algorithm
+//        NaiveBayes NB = new NaiveBayes(data, files[1]);
+//        NB.setNBData();
+        //NB.printClassList();
+        //ArrayList<Node> test;
+//        preProcess.shuffle(data);
+//        preProcess.stratify(files[1], data);
+//        for (int i = 0; i < data.size(); i++) {System.out.println("");
+//            for (int j = 0; j < data.get(i).getValue().size(); j++) {
+//                System.out.print(data.get(i).getValue().get(j));
+//                
+//            }
+//        }
+
     }
 }
