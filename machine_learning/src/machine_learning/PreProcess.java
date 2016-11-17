@@ -64,17 +64,29 @@ public class PreProcess {
             }
         }
     }
+    
+    // will convert y/n/? data to integers
+    public void ynToIntegers(ArrayList<Node> data) {
+        for (int i = 0; i < data.size(); i++) {
+            // assign y to 0
+            
+        }
+    }
 
     public void discretize(String file, ArrayList<Node> data) {
         switch (file) {
             case "house-votes-84.data.txt": {
-                // do nothing, the values are already discrete
+                ynToIntegers(data);
                 break;
             }
             case "iris.data.txt": {
                 //the values are continuous, so we need to discretize them.
                 //to this we will round the double to the nearest int. The int values will become our new bins.
                 //Note this may not be the best approach, due to ability to skew and possible high cardinality, but it will work for now.
+                roundedBins(data);
+                break;
+            }
+            case "glass.data.txt": {
                 roundedBins(data);
                 break;
             }
