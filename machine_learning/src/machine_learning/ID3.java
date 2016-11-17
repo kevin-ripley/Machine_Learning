@@ -79,15 +79,21 @@ public class ID3 {
         temp.clear();
     }
 
-    private void runID3() {
+    private void runID3(int attribute) {
         // this is where you need to put the algorithm
         // it's supposed to be recursive, so good luck with that.
         // 
         // attributes list is empty => return empty tree
-        // else compute the gain ratio for all remaining attributes
+        if(attributes.isEmpty()) 
+            return;
         
-        
-         
+        // A <- choose best attribute
+        // Assign A as decision attribute for Node
+        // for each value of A create a descendent of node
+        // sort training examples to leaves
+        // if examples perfectly classified stop (eh?)
+        // else iterate over the leaves until done
+
     }
     
 
