@@ -17,7 +17,7 @@ public class ID3 {
     ArrayList<Node> test = new ArrayList<>();
     ArrayList<Node> train = new ArrayList<>();
     // Set of attributes for gain evaluation
-    ArrayList<String> attributes = new ArrayList<>();
+    ArrayList<Integer> attributes = new ArrayList<>();
     // Set of classes
     ArrayList<String> classList = new ArrayList<>();
     
@@ -34,13 +34,17 @@ public class ID3 {
      * dataset held by the current instance of ID3.
      */
     public void fiveXTwo() {
+        // build the attribute index list
+        
         // repeat the two fold test 5 times
         for (int i = 0; i < 5; i++) {
             // run once
+            buildAttributes();
             splitData();
             runID3();
             testTree();
             // swap sets and run again
+            buildAttributes();
             switchSets();
             runID3();
             testTree();
@@ -80,7 +84,7 @@ public class ID3 {
         // it's supposed to be recursive, so good luck with that.
         // 
         // attributes list is empty => return empty tree
-        // else compute the entropy for all remaining attributes
+        // else compute the gain ratio for all remaining attributes
         
         
          
@@ -95,6 +99,50 @@ public class ID3 {
         for (int i = 0; i < classList.size(); i++) {
             System.out.println(classList.get(i));
         }
+    }
+    
+    
+    /**
+     * buildAttributes is a quick and ugly way to separate the attributes from
+     * classes and id's.
+     */
+    private void buildAttributes() {
+        int[] atts;
+        int[] def = {0};
+        // list all indexes that are attributes for each dataset
+        int[] houseAtt = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+        int[] irisAtt = {0,1,2,3};
+        int[] glassAtt = {1,2,3,4,5,6,7,8,9};
+        int[] soyAtt = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,
+                        20,21,22,23,24,25,26,27,28,29,30,31,32,33,34};
+        int[] bcwAtt = {1,2,3,4,5,6,7,8,9};
+        
+        // assign the attribute index list based on file name
+        switch (this.file) {
+            case "house-votes-84.data.txt": {
+                 atts = houseAtt;
+            }
+            case "iris.data.txt": {
+                atts = irisAtt;
+            }
+            case "glass.data.txt": {
+                atts = glassAtt;
+            }
+            case "soybean-small.data.txt": {
+                atts = soyAtt;
+            }
+            case "breast-cancer-wisonsin.data.txt": {
+                atts = bcwAtt;
+            }
+            default:
+                atts = def;
+        }
+        // clear old list incase something got left behind (CYA)
+        attributes.clear();
+        for (int i = 0; i < atts.length; i++) {
+            attributes.add(atts[i]);
+        }
+        
     }
     
 
