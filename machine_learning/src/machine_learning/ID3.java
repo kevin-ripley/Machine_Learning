@@ -82,7 +82,7 @@ public class ID3 {
         // else compute the entropy for all remaining attributes
         // 
         // 
-        createRoot();
+         
     }
 
     private void testTree() {
