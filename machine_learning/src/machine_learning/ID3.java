@@ -28,19 +28,29 @@ public class ID3 {
         // nested node class
         private id3Node root;
         private ArrayList<id3Node> children = new ArrayList<>();
-        private Object data;
+        private int decision;
         //
         // constructor for root = null
-        private id3Node(Object o) {
-            this.data = o;
+        private id3Node(int n) {
+            this.root = null;
+            this.decision = n;
         }
         // constructor for subsequent root
-        private id3Node(id3Node root, Object o) {
+        private id3Node(id3Node root, int n) {
             this.root = root;
-            this.data = o;
+            this.decision = n;
         }
-        
-        
+        // get the root of the node
+        private id3Node getRoot() {
+            return this.root;
+        }
+        /**
+         * add child to the current node that points to this instance as parent
+         * @param i integer to add to the decision list
+         */
+        private void addChild(int i) {
+            this.children.add(new id3Node(this, i));
+        }
     }
     // constructor
     public ID3(ArrayList<Node> d, String f, ArrayList<String> c) {
