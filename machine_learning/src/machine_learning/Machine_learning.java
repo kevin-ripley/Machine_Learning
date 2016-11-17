@@ -49,15 +49,16 @@ public class Machine_learning {
         //Start the NB Algorithm
         NaiveBayes NB = new NaiveBayes(data, files[1]);
         NB.setNBData();
-        NB.printClassList();
-
+        //NB.printClassList();
         //ArrayList<Node> test;
-        preProcess.shuffle(data);
-        preProcess.stratify(files[1], data);
-        for (int i = 0; i < data.size(); i++) {
-            System.out.print(i);
-            System.out.println(data.get(i).getValue());
-        }
+//        preProcess.shuffle(data);
+//        preProcess.stratify(files[1], data);
+//        for (int i = 0; i < data.size(); i++) {System.out.println("");
+//            for (int j = 0; j < data.get(i).getValue().size(); j++) {
+//                System.out.print(data.get(i).getValue().get(j));
+//                
+//            }
+//        }
 
     }
 }

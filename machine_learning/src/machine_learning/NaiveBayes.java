@@ -1,15 +1,18 @@
 package machine_learning;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class NaiveBayes {
 
     // TODO: need to handle zero probabilities, then use bayes formulat to get max probability.
-    
     ArrayList<Node> data = new ArrayList<>();
     ArrayList<String> classList = new ArrayList<>();
-    ArrayList<Integer[]> frequencyTable = new ArrayList<>();
+    ArrayList<Double> classProbability = new ArrayList<>();
+    ArrayList<ArrayList<Double[]>> totalClassProb = new ArrayList<>();
+
     String file = "";
+    double[] classCount;
 
     public NaiveBayes(ArrayList<Node> d, String f) {
         this.data = d;
@@ -19,55 +22,83 @@ public class NaiveBayes {
     // Build the class list from the data.
     public void buildClassList(int index) {
         for (int i = 0; i < data.size(); i++) {
-            if(index < data.get(i).inputData.size() && !classList.contains(data.get(i).inputData.get(index))){
+            if (index < data.get(i).inputData.size() && !classList.contains(data.get(i).inputData.get(index))) {
                 classList.add(data.get(i).inputData.get(index));
             }
         }
+        this.getClassProbabilities();
     }
 
-    public void printClassList(){
-        for (int i = 0; i < this.classList.size(); i++){
+    // Find the probability of each class occuring
+    public void getClassProbabilities() {
+        int size = this.data.get(0).inputData.size() - 1;
+        this.classCount = new double[this.classList.size()];
+        double counter;
+        // currently working with iris data, probably going to have to change for house
+        for (int i = 0; i < this.classList.size(); i++) {
+            counter = 0;
+            for (int j = 0; j < this.data.size(); j++) {
+                if (this.data.get(j).inputData.size() > 1 && this.data.get(j).inputData.get(size).equals(this.classList.get(i))) {
+                    counter++;
+                }
+            }
+            // We need to subtract one for that missing character at the end of file..... :(
+            this.classProbability.add(counter / (this.data.size() - 1));
+            this.classCount[i] = counter;
+        }
+    }
+
+    public void printClassList() {
+        for (int i = 0; i < this.classList.size(); i++) {
             System.out.println(classList.get(i));
         }
     }
-    
-    public void buildFrequencies(Integer possibleValues) {
-        // We need the total number of attributes to count, minus the class list
-        int attributeSize = this.data.get(0).inputData.size()-1;
-        
-        // set the frequency table with the total attribut categories, then populate each category with corresponding values
-        for(int i = 0; i < attributeSize; i++) {
-            Integer[] attribute = new Integer[possibleValues];
-            for (int j = 0; j < possibleValues; j++){
-                attribute[j] = 0;
+
+    public void buildFrequencies(Integer possibleValues, Integer numAttributes) {
+        int classIndex = this.data.get(0).inputData.size() - 1;
+
+        // add an array for each class to contain probabilities
+        for (int c = 0; c < this.classList.size(); c++) {
+            ArrayList<Double[]> attributeProbability = new ArrayList<>();
+            for (int i = 0; i < numAttributes; i++) {
+                attributeProbability.add(new Double[possibleValues]);
+                Arrays.fill(attributeProbability.get(i), (double) 0);
             }
-            this.frequencyTable.add(attribute);
+            totalClassProb.add(attributeProbability);
         }
-        
-        // Populate the attribute frequencies
-        for(int i = 0; i < this.data.size()-1; i++){
-            for(int j = 0; j < attributeSize; j++) {
-                if ( j < this.data.get(i).inputData.size()) {
-                frequencyTable.get(j)[Integer.parseInt(this.data.get(i).inputData.get(j))] += 1;
+
+        // find probabilites of attribute occuring given class, this is also EXTREMELY GROSS. Triple nested? kick me in the face!
+        for (int t = 0; t < this.classList.size(); t++) {
+            for (int i = 0; i < classIndex; i++) {
+                for (int j = 0; j < this.data.size(); j++) {
+                    // Another case of checking for the eof character
+                    if (this.data.get(j).inputData.size() > 1 && this.data.get(j).inputData.get(classIndex).equals(this.classList.get(t))) {
+                        totalClassProb.get(t).get(i)[Integer.parseInt(this.data.get(j).inputData.get(i))] += 1;
+                        //attributeProbability.get(i)[Integer.parseInt(this.data.get(j).inputData.get(i))] += 1;
+                    }
                 }
             }
         }
-        // for debugging, checking frequency table output
-        for(int i = 0; i < frequencyTable.size(); i++ ) {
-            System.out.println("Attribute " + i);
-            for(int j = 0; j < possibleValues; j++) {
-                System.out.println(frequencyTable.get(i)[j]);
+
+        // For debugging, printing the probability of each class occuring given they type for each attribute. This was a pain.
+        for (int c = 0; c < totalClassProb.size(); c++) {
+            for (int i = 0; i < totalClassProb.get(c).size(); i++) {
+                for (int j = 0; j < totalClassProb.get(c).get(i).length; j++) {
+                    System.out.print(" " + totalClassProb.get(c).get(i)[j] / this.classCount[c] + " ");
+                }
+                System.out.println("");
             }
+            System.out.println("");
         }
     }
-    
+
     // We need to get the classlist for testing. Based on the text file the class is either the first or last value
     public void setNBData() {
         switch (this.file) {
             case "iris.data.txt": {
-                buildClassList(this.data.get(0).inputData.size()-1);
-                // There are 9 possible values: 0-8
-                buildFrequencies(9);
+                buildClassList(this.data.get(0).inputData.size() - 1);
+                // There are 9 possible values: 0-8, and 4 different attributes
+                buildFrequencies(9, 4);
                 break;
             }
 

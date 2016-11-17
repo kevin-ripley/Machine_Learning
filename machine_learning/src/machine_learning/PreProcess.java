@@ -10,7 +10,7 @@ public class PreProcess {
 
     public ArrayList<Node> missingValues(ArrayList<Node> data, String file) {
 
-        // Another nexted for loop to handle all missing values... Gross I know, but work with what ya got. 
+        // Another nested for loop to handle all missing values... Gross I know, but work with what ya got. 
         // Improvement would be to not enter these loops on data sets with no missing values known. Can't assume this is the case everytime though
         for (int i = 0; i < data.size(); i++) {
             ArrayList<String> current = data.get(i).inputData;
@@ -51,7 +51,7 @@ public class PreProcess {
     public void roundedBins(ArrayList<Node> data) {
         for (int i = 0; i < data.size(); i++) {
             ArrayList<String> current = data.get(i).inputData;
-            //we dont want the last value because we know that is the Class provided by the data
+            //we dont want the last value because we know that is the Class provided by the data for all except house
             for (int j = 0; j < current.size() - 1; j++) {
                 long rounded = Math.round(Double.parseDouble(current.get(j)));
                 current.set(j, rounded + "");
