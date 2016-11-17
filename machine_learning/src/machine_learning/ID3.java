@@ -81,10 +81,11 @@ public class ID3 {
         // 
         // attributes list is empty => return empty tree
         // else compute the entropy for all remaining attributes
-        // 
-        // 
+        
+        
          
     }
+    
 
     private void testTree() {
 
