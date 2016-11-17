@@ -21,7 +21,27 @@ public class ID3 {
     // Set of classes
     ArrayList<String> classList = new ArrayList<>();
     
-
+    /**
+     * Nested class id3Node is the data structure for holding the tree
+     */
+    private class id3Node {
+        // nested node class
+        private id3Node root;
+        private ArrayList<id3Node> children = new ArrayList<>();
+        private Object data;
+        //
+        // constructor for root = null
+        private id3Node(Object o) {
+            this.data = o;
+        }
+        // constructor for subsequent root
+        private id3Node(id3Node root, Object o) {
+            this.root = root;
+            this.data = o;
+        }
+        
+        
+    }
     // constructor
     public ID3(ArrayList<Node> d, String f, ArrayList<String> c) {
         this.data = d;
@@ -79,7 +99,7 @@ public class ID3 {
         temp.clear();
     }
 
-    private void runID3(int attribute) {
+    private void runID3() {
         // this is where you need to put the algorithm
         // it's supposed to be recursive, so good luck with that.
         // 
@@ -96,7 +116,15 @@ public class ID3 {
 
     }
     
-
+    private void id3(int n, ArrayList<Node> d, ArrayList<Integer> att) {
+        
+    }
+    
+    private double computeGain() {
+        return 5.0;
+    }
+    
+    
     private void testTree() {
 
     }
