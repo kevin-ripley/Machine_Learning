@@ -52,12 +52,14 @@ public class Machine_learning {
         NB.printClassList();
 
         //ArrayList<Node> test;
-        preProcess.shuffle(data);
-        preProcess.stratify(files[1], data);
-        for (int i = 0; i < data.size(); i++) {
-            System.out.print(i);
-            System.out.println(data.get(i).getValue());
-        }
+//        preProcess.shuffle(data);
+//        preProcess.stratify(files[1], data);
+//        for (int i = 0; i < data.size(); i++) {
+//            System.out.print(i);
+//            System.out.println(data.get(i).getValue());
+//        }
 
+        ID3 id3 = new ID3(data, files[1], preProcess.getClassList(files[0]));
+        id3.printlist();
     }
 }

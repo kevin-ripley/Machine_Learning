@@ -23,9 +23,10 @@ public class ID3 {
     
 
     // constructor
-    public ID3(ArrayList<Node> d, String f) {
+    public ID3(ArrayList<Node> d, String f, ArrayList<String> c) {
         this.data = d;
         this.file = f;
+        this.classList = c;
     }
 
     /**
@@ -87,6 +88,12 @@ public class ID3 {
 
     private void testTree() {
 
+    }
+    
+    public void printlist() {
+        for (int i = 0; i < classList.size(); i++) {
+            System.out.println(classList.get(i));
+        }
     }
     
 
