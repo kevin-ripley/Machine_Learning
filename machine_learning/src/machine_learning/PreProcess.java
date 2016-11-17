@@ -180,6 +180,9 @@ public class PreProcess {
                 break;
         }
     }
+    
+    
+    // entering the stratify text blob of death, muahahaha...
 
     /**
      * Iris has 3 classifications, the sets will be stratified accordingly
