@@ -9,33 +9,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- *
- * @author kevinripley
- */
 public class Node {
 
     //doubly linkedlist
-    public  ArrayList<String> iData; // data item (key)
-    public String dData; // data item
+    public  ArrayList<String> inputData; // data item (key)
     public Node leftChild; // this node's left child
     public Node rightChild; // this node's right child
 
     public void displayNode() // display ourself
     {
-        //System.out.print('{');
-        System.out.println(iData);
-//		System.out.print(", ");
-//		System.out.print(dData);
-//		System.out.print("} ");
+        
+       // System.out.println("");
     }
 
-    public void parse(String dData) {
-        List<String> list = new ArrayList<String>(Arrays.asList(dData.split(",")));
-        iData = (ArrayList<String>) list;
-        iData.removeAll(Arrays.asList(null,""));
-       
+    public void setValue(String value) {
+        inputData = new ArrayList<>(Arrays.asList(value.split(",")));
     }
-
+    
+    public ArrayList<String> getValue() {
+        return inputData;
+    }
     
 }
