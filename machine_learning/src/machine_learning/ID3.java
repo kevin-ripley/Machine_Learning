@@ -18,6 +18,9 @@ public class ID3 {
     ArrayList<Node> train = new ArrayList<>();
     // Set of attributes for gain evaluation
     ArrayList<String> attributes = new ArrayList<>();
+    // Set of classes
+    ArrayList<String> classList = new ArrayList<>();
+    
 
     // constructor
     public ID3(ArrayList<Node> d, String f) {
@@ -34,11 +37,11 @@ public class ID3 {
         for (int i = 0; i < 5; i++) {
             // run once
             splitData();
-            buildTree();
+            runID3();
             testTree();
             // swap sets and run again
             switchSets();
-            buildTree();
+            runID3();
             testTree();
         }
     }
@@ -71,14 +74,20 @@ public class ID3 {
         temp.clear();
     }
 
-    private void buildTree() {
+    private void runID3() {
         // this is where you need to put the algorithm
         // it's supposed to be recursive, so good luck with that.
         // 
+        // attributes list is empty => return empty tree
+        // else compute the entropy for all remaining attributes
+        // 
+        // 
+        createRoot();
     }
 
     private void testTree() {
 
     }
+    
 
 }
