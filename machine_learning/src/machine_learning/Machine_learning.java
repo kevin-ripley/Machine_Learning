@@ -25,7 +25,7 @@ public class Machine_learning {
         files[1] = "iris.data.txt";
         files[2] = "glass.data.txt";
         files[3] = "soybean-small.data.txt";
-        files[4] = "breast-cancer-wisonsin.data.txt";
+        files[4] = "breast-cancer-wisconsin.data.txt";
         PreProcess preProcess = new PreProcess();
         ArrayList<Node> data = new ArrayList<>();
         try (FileReader process = new FileReader(files[1])) {
@@ -39,9 +39,11 @@ public class Machine_learning {
                 // node.displayNode();
                 data.add(node);
             }
-
-            // Process our data/test set
+            process.close();
+            // Process our data/test set for file 0 and 4
+            //preProcess.missingValues(data, files[0]);
             preProcess.missingValues(data, files[1]);
+            // Do this for all files
             preProcess.discretize(files[1], data);
             //preProcess.print(data);
         }

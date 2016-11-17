@@ -37,11 +37,14 @@ public class PreProcess {
                 break;
             }
             case "breast-cancer-wisconsin.data.txt": {
-                // do something.
+                // set to random value from 1-10 (possible values based on data set)
+                Random rand = new Random();
+                String rando = rand.nextInt(10) + 1 + "";
+                current.set(i, rando);
                 break;
             }
             default: {
-                System.out.println("ERROR");
+                break;
             }
 
         }
@@ -59,10 +62,137 @@ public class PreProcess {
         }
     }
 
+    public void removeID(ArrayList<Node> data) {
+        for (int i = 0; i < data.size(); i++) {
+            data.get(i).inputData.remove(0);
+        }
+    }
+
+    public void highLowBins(ArrayList<Node> data) {
+        // We are going to bin each attribute into either a 1 for high or a 0 for low. To handle this continuous values
+        for (int i = 0; i < data.size(); i++) {
+            for (int j = 0; j < data.get(i).inputData.size(); j++) {
+                Double value = Double.parseDouble(data.get(i).inputData.get(j));
+                switch (j) {
+                    case 0: {
+                        if (value < 1.52) {
+                            data.get(i).inputData.set(j, "0");
+                        } else {
+                            data.get(i).inputData.set(j, "1");
+                        }
+                        break;
+                    }
+                    case 1: {
+                        if (value < 12.5) {
+                            data.get(i).inputData.set(j, "0");
+                        } else {
+                            data.get(i).inputData.set(j, "1");
+                        }
+                        break;
+                    }
+                    case 2: {
+                        if (value < 2.0) {
+                            data.get(i).inputData.set(j, "0");
+                        } else {
+                            data.get(i).inputData.set(j, "1");
+                        }
+                        break;
+                    }
+                    case 3: {
+                        if (value < 1.0) {
+                            data.get(i).inputData.set(j, "0");
+                        } else {
+                            data.get(i).inputData.set(j, "1");
+                        }
+                        break;
+                    }
+                    case 4: {
+                        if (value < 72.0) {
+                            data.get(i).inputData.set(j, "0");
+                        } else {
+                            data.get(i).inputData.set(j, "1");
+                        }
+                        break;
+                    }
+                    case 5: {
+                        if (value < 0.5) {
+                            data.get(i).inputData.set(j, "0");
+                        } else {
+                            data.get(i).inputData.set(j, "1");
+                        }
+                        break;
+                    }
+                    case 6: {
+                        if (value < 7.5) {
+                            data.get(i).inputData.set(j, "0");
+                        } else {
+                            data.get(i).inputData.set(j, "1");
+                        }
+                        break;
+                    }
+                    case 7: {
+                        if (value < 0.01) {
+                            data.get(i).inputData.set(j, "0");
+                        } else {
+                            data.get(i).inputData.set(j, "1");
+                        }
+                        break;
+                    }
+                    case 8: {
+                        if (value < 0.02) {
+                            data.get(i).inputData.set(j, "0");
+                        } else {
+                            data.get(i).inputData.set(j, "1");
+                        }
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void changeToInts(ArrayList<Node> data) {
+        for (int i = 0; i < data.size(); i++) {
+            // Start at one since 0 is class
+            for (int j = 0; j < data.get(i).inputData.size(); j++) {
+                switch (data.get(i).inputData.get(j)) {
+                    case "y": {
+                        data.get(i).inputData.set(j, "0");
+                        break;
+                    }
+                    case "n": {
+                        data.get(i).inputData.set(j, "1");
+                        break;
+                    }
+                    case "o": {
+                        data.get(i).inputData.set(j, "2");
+                        break;
+                    }
+                     case "y\r": {
+                        data.get(i).inputData.set(j, "0");
+                        break;
+                    }
+                    case "n\r": {
+                        data.get(i).inputData.set(j, "1");
+                        break;
+                    }
+                    case "o\r": {
+                        data.get(i).inputData.set(j, "2");
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     public void discretize(String file, ArrayList<Node> data) {
         switch (file) {
             case "house-votes-84.data.txt": {
-                // do nothing, the values are already discrete
+                // change to ints
+                changeToInts(data);
                 break;
             }
             case "iris.data.txt": {
@@ -72,9 +202,18 @@ public class PreProcess {
                 roundedBins(data);
                 break;
             }
-            default: {
-                System.out.println("ERROR");
+            case "glass.data.txt": {
+                // Need to remove IDs as they are useless and bin the data
+                removeID(data);
+                highLowBins(data);
+                break;
             }
+            case "breast-cancer-wisconsin.data.txt": {
+                // remove needless ID
+                removeID(data);
+                break;
+            }
+
         }
     }
 
@@ -84,7 +223,7 @@ public class PreProcess {
         for (int i = 0; i < data.size(); i++) {
             System.out.println("");
             for (int j = 0; j < data.get(i).inputData.size(); j++) {
-                System.out.print(data.get(i).inputData.get(j));
+                System.out.print(" " + data.get(i).inputData.get(j));
             }
         }
     }
