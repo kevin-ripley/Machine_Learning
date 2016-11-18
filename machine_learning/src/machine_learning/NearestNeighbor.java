@@ -16,13 +16,15 @@ public class NearestNeighbor {
     ArrayList<Node> train = new ArrayList<>();
     ArrayList<String> classList = new ArrayList<>();
     ArrayList<Double> classProbability = new ArrayList<>();
+    ArrayList<String> intrain = new ArrayList<>();
     ArrayList<ArrayList<Double[]>> totalClassProb = new ArrayList<>();
     List<Class> classList2 = new ArrayList<Class>();
     //list to save distance result
     List<Result> resultList = new ArrayList<Result>();
     String file = "";
     double[] classCount;
-    double[] query = {4.2, 3.0, 3.5, 0.1};
+    int vary= 0;
+    
 
     public NearestNeighbor(ArrayList<Node> d, String f) {
         this.data = d;
@@ -30,14 +32,43 @@ public class NearestNeighbor {
 
     }
 
-    private void split() {
-        for (int i = 0; i < this.data.size(); i++) {
+    public void split() {
+        for (int i = 0; i < this.data.size()-1; i++) {
             if (i < data.size() / 2) {
                 test.add(data.get(i));
+                
             } else {
                 train.add(data.get(i));
             }
+            
         }
+        for(int j = 0; j < this.train.size(); j ++){
+            ArrayList<String> ntrain = train.get(j).inputData;
+            for(int h = 0; h < ntrain.size()-1; h++){
+                this.intrain.add(ntrain.get(h));
+            }
+            
+        }
+        
+    }
+    public void houseSplit(){
+        for (int i = 0; i < this.data.size(); i++) {
+            if (i < data.size() / 2) {
+                test.add(data.get(i));
+                
+            } else {
+                train.add(data.get(i));
+            }
+            
+        }
+        for(int j = 0; j < this.train.size(); j ++){
+            ArrayList<String> ntrain = train.get(j).inputData;
+            for(int h = 1; h < ntrain.size(); h++){
+                this.intrain.add(ntrain.get(h));
+            }
+            
+        }
+        
     }
 
     public void buildClassList(int index) {
@@ -64,24 +95,39 @@ public class NearestNeighbor {
     public void nnMain() {
         String className = null;
         int k = 4;
+        if(vary !=0){
         split();
-
+        }else{
+            houseSplit();
+        }
+        
         //Using the Euclidean Algorithm to find Distance
         for (int i = 0; i < this.data.size(); i++) {
             double dist = 0.0;
             ArrayList<String> current = data.get(i).inputData;
+            if(vary !=0){
             for (int j = 0; j < current.size() - 1; j++) {
-                dist += Math.pow(Double.parseDouble(current.get(j)) - query[j], 2);
-                className = current.get(4);
+               
+                dist += Math.pow(Double.parseDouble(current.get(j)) - Double.parseDouble(intrain.get(j)), 2);
+                className = current.get(vary);
             }
             double distance = Math.sqrt(dist);
             resultList.add(new Result(distance, className));
+            }else{
+                for (int j = 1; j < current.size(); j++) {
+               
+                dist += Math.pow(Double.parseDouble(current.get(j)) - Double.parseDouble(intrain.get(j)), 2);
+                className = current.get(vary);
+            }
+            double distance = Math.sqrt(dist);
+            resultList.add(new Result(distance, className));
+            
+            }
         }
 
         Collections.sort(resultList, new DistanceComparator());
         String[] ss = new String[k];
         for (int x = 0; x < k; x++) {
-            System.out.println("Class: " + resultList.get(x).className + " has a distance of " + resultList.get(x).distance);
             //get classes of k nearest instances className from the list into an array
             ss[x] = resultList.get(x).className;
         }
@@ -115,26 +161,31 @@ public class NearestNeighbor {
             case "iris.data.txt": {
                 buildClassList(this.data.get(0).inputData.size() - 1);
                 // There are 9 possible values: 0-8, and 4 different attributes
+                vary = 4;
                 nnMain();
                 break;
             }
             case "soybean-small.data.txt": {
                 buildClassList(this.data.get(0).inputData.size() - 1);
+                vary =  35;
                 nnMain();
                 break;
             }
             case "glass.data.txt": {
                 buildClassList(this.data.get(0).inputData.size() - 1);
+                vary = 9;
                 nnMain();
                 break;
             }
             case "breast-cancer-wisconsin.data.txt": {
                 buildClassList(this.data.get(0).inputData.size() - 1);
+                vary = 9;
                 nnMain();
                 break;
             }
             case "house-votes-84.data.txt": {
                 buildClassListHouse(this.data.get(0).inputData.size() - 1);
+                vary = 0;
                 nnMain();
                 break;
             }
@@ -144,11 +195,11 @@ public class NearestNeighbor {
 
     private static String voteClass(String[] array) {
         //add the String array to a HashSet to get unique String values
-        Set<String> h = new HashSet<String>(Arrays.asList(array));
+        Set<String> str = new HashSet<String>(Arrays.asList(array));
         //convert the HashSet back to array
-        String[] uniqueValues = h.toArray(new String[0]);
+        String[] uniqueValues = str.toArray(new String[0]);
         int[] counts = new int[uniqueValues.length];
-        // loop thru unique strings and count how many times they appear in origianl array   
+        // loop thru unique strings and count how many times they appear in original array   
         for (int i = 0; i < uniqueValues.length; i++) {
             for (int j = 0; j < array.length; j++) {
                 if (array[j].equals(uniqueValues[i])) {
@@ -162,11 +213,7 @@ public class NearestNeighbor {
                 max = counts[counter];
             }
         }
-        System.out.println("Max number of occurrences: " + max);
-
-        // how many times max appears
-        //we know that max will appear at least once in counts
-        //so the value of freq will be 1 at minimum after this loop
+        
         int freq = 0;
         for (int counter = 0; counter < counts.length; counter++) {
             if (counts[counter] == max) {
@@ -192,7 +239,7 @@ public class NearestNeighbor {
             for (int counter = 0; counter < counts.length; counter++) {
                 if (counts[counter] == max) {
                     ix[ixi] = counter;//save index of each max count value
-                    ixi++; // increase index of ix array
+                    ixi++; // increase index of array
                 }
             }
 
