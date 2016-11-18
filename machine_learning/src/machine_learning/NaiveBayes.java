@@ -21,6 +21,22 @@ public class NaiveBayes {
         this.file = f;
     }
 
+    public double[] getClassCount() {
+        return this.classCount;
+    }
+    
+    public List<Double> getClassProb(){
+        return this.classProbability;
+    }
+    
+    public List<String> getClassList(){
+        return this.classList;
+    }
+    
+    public List<ArrayList<Double[]>> getAttributeProb() {
+        return this.totalClassProb;
+    }
+    
     // Build the class list from the data.
     public void buildClassList(int index) {
         for (int i = 0; i < data.size(); i++) {
@@ -103,16 +119,16 @@ public class NaiveBayes {
         }
 
         // For debugging, printing the probability of each class occuring given they type for each attribute. This was a pain.
-//        for (int c = 0; c < totalClassProb.size(); c++) {
-//            for (int i = 0; i < totalClassProb.get(c).size(); i++) {
-//                for (int j = 0; j < totalClassProb.get(c).get(i).length; j++) {
-//                    totalClassProb.get(c).get(i)[j] = totalClassProb.get(c).get(i)[j] / this.classCount[c];
-//                    System.out.print(" " + totalClassProb.get(c).get(i)[j] + " ");
-//                }
-//                System.out.println("");
-//            }
-//            System.out.println("");
-//        }
+        for (int c = 0; c < totalClassProb.size(); c++) {
+            for (int i = 0; i < totalClassProb.get(c).size(); i++) {
+                for (int j = 0; j < totalClassProb.get(c).get(i).length; j++) {
+                    totalClassProb.get(c).get(i)[j] = totalClassProb.get(c).get(i)[j] / this.classCount[c];
+               //     System.out.print(" " + totalClassProb.get(c).get(i)[j] + " ");
+                }
+             //   System.out.println("");
+            }
+           // System.out.println("");
+        }
     }
 
     public double findMax(Integer d, int a) {
