@@ -65,5 +65,11 @@ public class Machine_learning {
 //            }
 //        }
 
-    }
+
+            // Process our data/test set
+            preProcess.missingValues(data, files[1]);
+            preProcess.discretize(files[1], data);
+            //preProcess.print(data);
+        }
+
 }

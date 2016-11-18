@@ -1,3 +1,15 @@
 /machine_learning/nbproject/private/
 /machine_learning/build/
 /machine_learning/dist/
+
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.temp/
+
+#PackageFiles #
+*.war
+*.ear
+
+#virtual machine crash logs
+hs_err_pid*
