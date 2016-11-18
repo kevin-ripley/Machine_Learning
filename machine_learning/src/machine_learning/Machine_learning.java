@@ -54,15 +54,18 @@ public class Machine_learning {
             }
 //
 //            //Start the NB Algorithm
-//            NaiveBayes NB = new NaiveBayes(data, files[i]);
-//            NB.setNBData();
-            NB_Tan nbt = new NB_Tan(data, files[i]);
-            nbt.prepareGraph();
+            NaiveBayes NB = new NaiveBayes(data, files[i]);
+            NB.setNBData();
+            //NB_Tan nbt = new NB_Tan(data, files[i]);
+            //nbt.prepareGraph();
 
         }
 
 //        NearestNeighbor nn = new NearestNeighbor(data, files[1]);
 //        nn.setNNData();
+
+        //ID3 id3 = new ID3(data, files[1], preProcess.getClassList(files[0]));
+        //id3.printlist();
 
     }
 }

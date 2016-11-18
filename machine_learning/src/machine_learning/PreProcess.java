@@ -67,6 +67,14 @@ public class PreProcess {
             }
         }
     }
+    
+    // will convert y/n/? data to integers
+    public void ynToIntegers(ArrayList<Node> data) {
+        for (int i = 0; i < data.size(); i++) {
+            // assign y to 0
+            
+        }
+    }
 
     public void removeID(ArrayList<Node> data) {
         for (int i = 0; i < data.size(); i++) {
@@ -197,6 +205,7 @@ public class PreProcess {
     public void discretize(String file, ArrayList<Node> data) {
         switch (file) {
             case "house-votes-84.data.txt": {
+                ynToIntegers(data);
                 // change to ints
                 changeToInts(data);
                 break;
@@ -209,6 +218,7 @@ public class PreProcess {
                 break;
             }
             case "glass.data.txt": {
+
                 // Need to remove IDs as they are useless and bin the data
                 removeID(data);
                 highLowBins(data);
