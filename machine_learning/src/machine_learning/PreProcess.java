@@ -431,7 +431,7 @@ public class PreProcess {
         int d2 = 0;
         int d3 = 0;
         int d4 = 0;
-
+     
         for (int i = 0; i < d.size(); i++) {
             switch (d.get(i).getValue().toString()) {
                 case "D1": {
@@ -472,10 +472,11 @@ public class PreProcess {
                 }
 
             }
+        }
             d.clear();
             first.addAll(second);
             d.addAll(first);
-        }
+        //}
     }
 
     private void stratBCW(ArrayList<Node> d) {
