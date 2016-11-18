@@ -161,13 +161,47 @@ public class ID3 {
         temp.clear();
     }
 
+    /**
+     * runID3 is the entry point to the application. It creates the root node and
+     * starts the recursive calls to build the tree.
+     */
     private void runID3() {
         // compute gain for the root node
         int n = getGainMax(data, attributes);
         // create tree root with max gain of dataset
         tree = new ID3Node(n);
-        // pass index of most gain with dataset and index list to build tree
-        buildTree(n, data, attributes, tree);
+        
+        
+        // the code below is just an ugly way to get the recursion going
+        
+        // remove index from list of attributes
+        attributes.remove(n);
+
+        // hold all possible values of selected attribute in this array list
+        // assuming discrete otherwise, welp, cya later
+        ArrayList<String> values = new ArrayList<>();
+
+        // iterate over remaining data to find all possible values of attribute
+        // make a list of attribute values
+        for (int i = 0; i < data.size(); i++) {
+            // if the value isn't in the list add it
+            if (!values.contains(data.get(i).inputData.get(n))) {
+                values.add(data.get(i).inputData.get(n));
+            }
+        }
+
+        // create a child for each value in values
+        for (int i = 0; i < values.size(); i++) {
+            tree.addChild(values.get(i));
+        }
+
+        // for all the children recurse!
+        for (int i = 0; i < tree.getChildren().size(); i++) {
+            // split the data for each time through the recursion based on 
+            // attribute value associated with each child...
+            buildTree(n, splitSet(data, tree.getChildren().get(i).getAttVal(), n),
+                    attributes, tree.getChildren().get(i));
+        }
     }
 
     /**
@@ -228,7 +262,28 @@ public class ID3 {
 
     }
 
+    /**
+     * getGainMax takes a dataset and a list of attribute indexes and returns
+     * the index of the attribute that maximizes the information gain ratio.
+     * 
+     * @param d dataset to determine most gain
+     * @param attList list of attribute indexes
+     * @return integer value representing the index of most gain
+     */
     private int getGainMax(ArrayList<Node> d, ArrayList<Integer> attList) {
+        double entropy;
+        double ig;
+        double iv;
+        
+        // compute entropy
+        
+        // compute information gain
+        
+        // compute intrinsic value
+        
+        // divide information gain by intrinsic value
+        
+        // return it
         return 5;
     }
 
