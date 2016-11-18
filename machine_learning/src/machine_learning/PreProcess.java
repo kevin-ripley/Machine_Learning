@@ -7,7 +7,13 @@ import java.util.Collections;
 import java.util.Random;
 
 public class PreProcess {
-
+    // class lists
+    private String[] houseClass = {"republican", "democrat"};
+    private String[] irisClass = {"Iris-setosa", "Iris-versicolor", "Iris-virginica"};
+    private String[] bcwClass = {"2", "4"};
+    private String[] soyClass = {"D1", "D2", "D3", "D4"};
+    private String[] glassClass = {"1", "2", "3", "4", "5", "6", "7"};
+    
     public ArrayList<Node> missingValues(ArrayList<Node> data, String file) {
 
         // Another nested for loop to handle all missing values... Gross I know, but work with what ya got. 
@@ -227,7 +233,50 @@ public class PreProcess {
             }
         }
     }
-
+    
+    
+    /**
+     * getClassList returns an array list of classes based on the file type provided as an argument
+     * @param file name of the dataset file
+     * @return arraylist of classes for the file
+     */
+    public ArrayList<String> getClassList(String file) {
+        ArrayList<String> tempAList = new ArrayList<>();
+        String[] tempArray;
+        // because java is fun, can't assign strings to an array without an .add line per string
+        switch (file) {
+            case "iris.data.txt": {
+                tempArray = irisClass;
+                break;
+            }
+            case "house-votes-84.data.txt": {
+                tempArray = houseClass;
+                break;
+            }
+            case "glass.data.txt": {
+                tempArray = glassClass;
+                break;
+            }
+            case "soybean-small.data.txt": {
+                tempArray = soyClass;
+                break;
+            }
+            default: {
+                tempArray = bcwClass;
+                break;
+            }
+        }
+        for (int i = 0; i < tempArray.length; i++) {
+            tempAList.add(tempArray[i]);
+        }
+        return tempAList;
+    }
+    
+    
+    /**
+     * Shuffle randomly rearranges a dataset
+     * @param d dataset to be shuffled
+     */
     public void shuffle(ArrayList<Node> d) {
         long seed = System.nanoTime();
         Collections.shuffle(d, new Random(seed));
@@ -270,12 +319,14 @@ public class PreProcess {
                 break;
         }
     }
+    
+    
+    // entering the stratify text blob of death, muahahaha...
 
     /**
-     * Iris has 3 classifications, the sets will be sampled from accordingly
+     * Iris has 3 classifications, the sets will be stratified accordingly
      *
      * @param d unstratified dataset of iris data
-     * @return stratified dataset of iris data
      */
     private void stratIris(ArrayList<Node> d) {
         // set up lists for each class
@@ -311,16 +362,15 @@ public class PreProcess {
             }
         }
 
-        // clear and reform d from the two halves
+       // clear out dataset pointing to and rebuild with weighted halves
         d.clear();
         first.addAll(second);
         d.addAll(first);
     }
 
     /**
-     *
-     * @param d
-     * @return
+     * House data is of type republican or democrat, stratify accordingly
+     * @param d the dataset to be sorted.
      */
     private void stratHouse(ArrayList<Node> d) {
         ArrayList<Node> first = new ArrayList<>();
@@ -329,6 +379,7 @@ public class PreProcess {
         int dem = 0;
         // iterate though the list of data and add to two lists
         for (int i = 0; i < d.size(); i++) {
+            // divy republicans
             if (d.get(i).toString().contains("republican")) {
                 if (rep % 2 == 0) {
                     first.add(d.get(i));
@@ -336,6 +387,7 @@ public class PreProcess {
                     second.add(d.get(i));
                 }
                 rep++;
+            // divy democrats
             } else {
                 if (dem % 2 == 0) {
                     first.add(d.get(i));
@@ -352,19 +404,29 @@ public class PreProcess {
         d.addAll(first);
     }
 
+    /**
+     * Glass has 6 classes (7 - 1 not used), switch statement to stratify 
+     * @param d the dataset to be sorted
+     */
     private void stratGlass(ArrayList<Node> d) {
+        // two halves again
         ArrayList<Node> first = new ArrayList<>();
         ArrayList<Node> second = new ArrayList<>();
+        // class c for each used up to 6, not identical to actual dataset classes
         int c0 = 0;
         int c1 = 0;
         int c2 = 0;
         int c3 = 0;
         int c4 = 0;
         int c5 = 0;
-
+        String temp; 
+        
+        // big ugly switch statement
         for (int i = 0; i < d.size(); i++) {
+            temp = d.get(i).getValue().toString().substring(
+                    d.get(i).getValue().toString().length() - 1);
             switch (d.get(i).getValue().toString()) {
-                case "building_windows_float_processed": {
+                case "1": {
                     if (c0 % 2 == 0) {
                         first.add(d.get(i));
                     } else {
@@ -373,7 +435,7 @@ public class PreProcess {
                     c0++;
                     break;
                 }
-                case "building_windows_non_float_processed": {
+                case "2": {
                     if (c1 % 2 == 0) {
                         first.add(d.get(i));
                     } else {
@@ -382,7 +444,7 @@ public class PreProcess {
                     c1++;
                     break;
                 }
-                case "vehicle_windows_float_processed": {
+                case "3": {
                     if (c2 % 2 == 0) {
                         first.add(d.get(i));
                     } else {
@@ -391,7 +453,7 @@ public class PreProcess {
                     c2++;
                     break;
                 }
-                case "containers": {
+                case "5": {
                     if (c3 % 2 == 0) {
                         first.add(d.get(i));
                     } else {
@@ -400,7 +462,7 @@ public class PreProcess {
                     c3++;
                     break;
                 }
-                case "tableware": {
+                case "6": {
                     if (c4 % 2 == 0) {
                         first.add(d.get(i));
                     } else {
@@ -419,11 +481,16 @@ public class PreProcess {
                 }
             }
         }
+ 
         d.clear();
         first.addAll(second);
         d.addAll(first);
     }
 
+    /**
+     * Soybean-small data has 4 types, stratify accordingly
+     * @param d dataset to be stratified
+     */
     private void stratSoy(ArrayList<Node> d) {
         ArrayList<Node> first = new ArrayList<>();
         ArrayList<Node> second = new ArrayList<>();
@@ -479,13 +546,17 @@ public class PreProcess {
         //}
     }
 
+    /**
+     * Breast Cancer Data has 2 classes, stratify accordingly
+     * @param d the dataset to be stratified
+     */
     private void stratBCW(ArrayList<Node> d) {
         ArrayList<Node> first = new ArrayList<>();
         ArrayList<Node> second = new ArrayList<>();
         String temp;
         int x1 = 0;
         int x2 = 0;
-
+        // list assignment
         for (int i = 0; i < d.size(); i++) {
             temp = d.get(i).getValue().toString().substring(
                     d.get(i).getValue().toString().length() - 1);

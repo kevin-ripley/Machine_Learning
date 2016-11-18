@@ -53,6 +53,7 @@ public class Machine_learning {
                 //System.out.println(data.size());
             }
 
+
             //Start the NB Algorithm
             NaiveBayes NB = new NaiveBayes(data, files[i]);
             NB.setNBData();
@@ -67,5 +68,17 @@ public class Machine_learning {
 //            }
 //        }
         }
+
+        //ArrayList<Node> test;
+//        preProcess.shuffle(data);
+//        preProcess.stratify(files[1], data);
+//        for (int i = 0; i < data.size(); i++) {
+//            System.out.print(i);
+//            System.out.println(data.get(i).getValue());
+//        }
+
+        //ID3 id3 = new ID3(data, files[1], preProcess.getClassList(files[0]));
+        //id3.printlist();
+
     }
 }
