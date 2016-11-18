@@ -53,12 +53,36 @@ public class Machine_learning {
                 //System.out.println(data.size());
             }
 
-
             //Start the NB Algorithm
             NaiveBayes NB = new NaiveBayes(data, files[i]);
             NB.setNBData();
-            //NB.printClassList();
-            //ArrayList<Node> test;
+
+        }
+
+        PreProcess preProcess = new PreProcess();
+        ArrayList<Node> data = new ArrayList<>();
+        try (FileReader process = new FileReader(files[1])) {
+            Scanner scan = new Scanner(process);
+            scan.useDelimiter("\n");
+
+            // Populate an array list of Nodes to be preprocess and given to an algorithm
+            while (scan.hasNext() != false) {
+                Node node = new Node();
+                node.setValue(scan.next());
+                data.add(node);
+            }
+            process.close();
+
+            preProcess.missingValues(data, files[1]);
+            // Do this for all files
+            preProcess.discretize(files[1], data);
+            preProcess.shuffle(data);
+            preProcess.stratify(files[1], data);
+
+        }
+        NearestNeighbor nn = new NearestNeighbor(data, files[1]);
+        nn.setNNData();
+        //ArrayList<Node> test;
 //        preProcess.shuffle(data);
 //        preProcess.stratify(files[1], data);
 //        for (int i = 0; i < data.size(); i++) {System.out.println("");
@@ -67,18 +91,8 @@ public class Machine_learning {
 //                
 //            }
 //        }
-        }
-
-        //ArrayList<Node> test;
-//        preProcess.shuffle(data);
-//        preProcess.stratify(files[1], data);
-//        for (int i = 0; i < data.size(); i++) {
-//            System.out.print(i);
-//            System.out.println(data.get(i).getValue());
-//        }
 
         //ID3 id3 = new ID3(data, files[1], preProcess.getClassList(files[0]));
         //id3.printlist();
-
     }
 }
