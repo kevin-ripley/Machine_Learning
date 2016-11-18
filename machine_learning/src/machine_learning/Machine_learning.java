@@ -26,6 +26,39 @@ public class Machine_learning {
         files[2] = "glass.data.txt";
         files[3] = "soybean-small.data.txt";
         files[4] = "breast-cancer-wisconsin.data.txt";
+
+        for (int i = 0; i < files.length; i++) {
+            PreProcess preProcess = new PreProcess();
+            ArrayList<Node> data = new ArrayList<>();
+            try (FileReader process = new FileReader(files[i])) {
+                Scanner scan = new Scanner(process);
+                scan.useDelimiter("\n");
+
+                // Populate an array list of Nodes to be preprocess and given to an algorithm
+                while (scan.hasNext() != false) {
+                    Node node = new Node();
+                    node.setValue(scan.next());
+                    // node.displayNode();
+                    data.add(node);
+                }
+                process.close();
+                // Process our data/test set for file 0 and 4
+                //preProcess.missingValues(data, files[0]);
+                preProcess.missingValues(data, files[i]);
+                // Do this for all files
+                preProcess.discretize(files[i], data);
+                preProcess.shuffle(data);
+                preProcess.stratify(files[i], data);
+                // preProcess.print(data);
+                //System.out.println(data.size());
+            }
+
+            //Start the NB Algorithm
+            NaiveBayes NB = new NaiveBayes(data, files[i]);
+            NB.setNBData();
+
+        }
+
         PreProcess preProcess = new PreProcess();
         ArrayList<Node> data = new ArrayList<>();
         try (FileReader process = new FileReader(files[1])) {
@@ -36,25 +69,19 @@ public class Machine_learning {
             while (scan.hasNext() != false) {
                 Node node = new Node();
                 node.setValue(scan.next());
-                // node.displayNode();
                 data.add(node);
             }
             process.close();
-            // Process our data/test set for file 0 and 4
-            //preProcess.missingValues(data, files[0]);
+
             preProcess.missingValues(data, files[1]);
             // Do this for all files
             preProcess.discretize(files[1], data);
-            //preProcess.print(data);
+            preProcess.shuffle(data);
+            preProcess.stratify(files[1], data);
+
         }
-        
         NearestNeighbor nn = new NearestNeighbor(data, files[1]);
         nn.setNNData();
-        
-        //Start the NB Algorithm
-//        NaiveBayes NB = new NaiveBayes(data, files[1]);
-//        NB.setNBData();
-        //NB.printClassList();
         //ArrayList<Node> test;
 //        preProcess.shuffle(data);
 //        preProcess.stratify(files[1], data);
@@ -65,11 +92,7 @@ public class Machine_learning {
 //            }
 //        }
 
-
-            // Process our data/test set
-            preProcess.missingValues(data, files[1]);
-            preProcess.discretize(files[1], data);
-            //preProcess.print(data);
-        }
-
+        //ID3 id3 = new ID3(data, files[1], preProcess.getClassList(files[0]));
+        //id3.printlist();
+    }
 }
