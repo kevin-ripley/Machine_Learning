@@ -16,6 +16,7 @@ public class ID3 {
     // Test and training sets
     private ArrayList<Node> test = new ArrayList<>();
     private ArrayList<Node> train = new ArrayList<>();
+    private ArrayList<Node> train2;
     // Set of attributes for gain evaluation
     private ArrayList<Integer> attributes = new ArrayList<>();
     // Set of classes
@@ -41,7 +42,7 @@ public class ID3 {
 
         //
         // constructor for root = null
-        private ID3Node(int  n) {
+        private ID3Node(int n) {
             this.root = this;
             this.index = n;
         }
@@ -80,18 +81,22 @@ public class ID3 {
         private void setLeafClass(String s) {
             this.c = s;
         }
+
         // get the index of the attribute the node splits
         private int getIndex() {
             return index;
         }
+
         // set index of attribute over which the node splits
         private void setIndex(int n) {
             this.index = n;
         }
+
         // get children list
         private ArrayList<ID3Node> getChildren() {
             return this.children;
         }
+
         // get attribute value
         private String getAttVal() {
             return this.attVal;
@@ -139,6 +144,7 @@ public class ID3 {
                 train.add(i, data.get(i));
             }
         }
+        train2 = new ArrayList<>(test);
     }
 
     /**
@@ -176,27 +182,28 @@ public class ID3 {
         // if only one class remains, don't continue
         if (allSameClass(d)) {
             // have leaf, no kids, set string to attribute value
+            node.setLeafClass(getClassString(d));
         }
         // out of attributes make leaf with most common class at node as class string
         if (attList.isEmpty()) {
-            tree.setLeafClass("");
+            tree.setLeafClass(getMostCommon(d));
             return;
         }
         // otherwise we have more work to do
-        
+
         // set index of current node
         this.tree.setIndex(index);
 
         // find maximum information gain over remaining attributes
         int n = getGainMax(d, attList);
-        
+
         // remove index from list of attributes
         attList.remove(n);
-        
+
         // hold all possible values of selected attribute in this array list
         // assuming discrete otherwise, welp, cya later
         ArrayList<String> values = new ArrayList<>();
-        
+
         // iterate over remaining data to find all possible values of attribute
         // make a list of attribute values
         for (int i = 0; i < d.size(); i++) {
@@ -205,50 +212,116 @@ public class ID3 {
                 values.add(d.get(i).inputData.get(n));
             }
         }
-        
+
         // create a child for each value in values
         for (int i = 0; i < values.size(); i++) {
             node.addChild(values.get(i));
         }
-        
+
         // for all the children recurse!
         for (int i = 0; i < node.getChildren().size(); i++) {
             // split the data for each time through the recursion based on 
-            // attribute value...
-            buildTree(n, splitSet(d, node.getChildren().get(i).getAttVal(), n), attList, node);
+            // attribute value associated with each child...
+            buildTree(n, splitSet(d, node.getChildren().get(i).getAttVal(), n),
+                    attList, node.getChildren().get(i));
         }
-        
+
     }
 
     private int getGainMax(ArrayList<Node> d, ArrayList<Integer> attList) {
         return 5;
     }
 
+    /**
+     * allSameClass checks a dataset to see if all entries are of the same class
+     *
+     * @param d dataset to check
+     * @return true if all same class, else false
+     */
     private boolean allSameClass(ArrayList<Node> d) {
-        
+        int count = 0;
         switch (file) {
+            case "glass.data.txt":
             case "breast-cancer-wisconsin.data.txt": {
-                // search for last index = 2 or 4
-            }
-            case "glass.data.txt": {
-                // search for last index = 1 - 7
+                String compare = d.get(0).inputData.get(d.get(0).inputData.size() - 1);
+                // iterate through the dataset remaining
+                for (int i = 0; i < d.size(); i++) {
+                    if (d.get(i).inputData.get(d.get(i).inputData.size() - 1) != compare) {
+                        return false;
+                    }
+                }
+                return true;
             }
             default: {
-                // search for string in class list
+                for (int i = 0; i < d.size(); i++) {
+                    for (int j = 0; j < classList.size(); j++) {
+                        if (d.get(i).getValue().toString().contains(classList.get(j))) {
+                            count++;
+                        }
+                    }
+                }
+                if (d.size() == count) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
-        return true;
     }
-    
+
+    /**
+     * Get Most Common returns the most common class from a dataset
+     *
+     * @param d dataset to be analyzed
+     * @return String of the most common class
+     */
+    private String getMostCommon(ArrayList<Node> d) {
+        ArrayList<Integer> counts = new ArrayList<>();
+        int k = 0;
+        // build a list the same size as classes to hold counts
+        for (int i = 0; i < classList.size(); i++) {
+            counts.add(0);
+        }
+        // count up the classes in the data set
+        for (int i = 0; i < d.size(); i++) {
+            switch (file) {
+                case "iris.data.txt":
+                case "glass.data.txt": {
+                    
+                }
+                default:
+                    for (int j = 0; j < classList.size(); j++) {
+                        if (d.get(i).getValue().toString().contains(classList.get(j))) {
+                            k = counts.get(i);
+                            counts.set(i, k);
+                        }
+                    }
+            }
+        }
+        
+        // match the index of the highest count to the index of the class list and return
+        k = counts.get(0);
+        for (int i = 0; i < counts.size(); i ++) {
+            // if there is a greater value in the counts list, return it
+            if (k < counts.get(i)) {
+                k = counts.get(i);
+            }
+        }
+        
+        // return the String at index of k -- remember the lists mirror eachother
+        return classList.get(counts.indexOf(k));
+
+    }
+
     /**
      * splitSet takes a data set, the attribute value, and the attribute index
      * and splits the set into a new set containing only data with the attribute
      * index == the attribute value
-     * 
+     *
      * @param d dataset to be split by attribute value, index
      * @param s string containing the attribute value
      * @param n index of the attribute
-     * @return 
+     * @return a set with the selected attribute having the same value across all members
      */
     private ArrayList<Node> splitSet(ArrayList<Node> d, String s, int n) {
         ArrayList<Node> temp = new ArrayList<>();
@@ -268,6 +341,40 @@ public class ID3 {
         for (int i = 0; i < classList.size(); i++) {
             System.out.println(classList.get(i));
         }
+    }
+
+    /**
+     * PruneTree Prunes the date from a given tree. Takes the root node as
+     * parameter.
+     *
+     * @param node root node of the tree that must be pruned.
+     */
+    private void pruneTree(ID3Node node) {
+
+    }
+
+    /**
+     * getClassString returns the string to be associated with a leaf
+     *
+     * @param d data set of the same class type from which to pull the class
+     * @return String value for the root
+     */
+    private String getClassString(ArrayList<Node> d) {
+        switch (this.file) {
+            case "house-votes-84.data.txt":
+            case "iris.data.txt": {
+                return d.get(0).inputData.get(d.get(0).inputData.size() - 1);
+            }
+            default:
+                for (int i = 0; i < classList.size(); i++) {
+                    if (d.get(0).getValue().toString().contains(classList.get(i))) {
+                        return classList.get(i);
+                    }
+                }
+        }
+        // if the above failed, something went wrong. Return a random class so the
+        // program still executes
+        return classList.get((int) (Math.random() * classList.size()));
     }
 
     /**
