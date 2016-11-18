@@ -16,7 +16,9 @@ public class Node {
     public ArrayList<Node> neighbors = new ArrayList<>();
     public Node leftChild; // this node's left child
     public Node rightChild; // this node's right child
+    Node parent;
     boolean visited = false;
+    boolean inTree = false;
     
     double weight = 0;
 
@@ -27,6 +29,10 @@ public class Node {
 
     public void setVisited(){
         this.visited = true;
+    }
+    
+    public void setInTree() {
+        this.inTree = true;
     }
     
     public void setWeight(double d){

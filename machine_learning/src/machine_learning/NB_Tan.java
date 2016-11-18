@@ -16,6 +16,7 @@ public class NB_Tan {
     List<ArrayList<Double[]>> attributeProb = new ArrayList<>();
     String file;
     double[] classCount;
+    int[] maxClass;
 
     public NB_Tan(ArrayList<Node> g, String f) {
         this.tanGraph = g;
@@ -73,7 +74,7 @@ public class NB_Tan {
                         }
                         //smooth out the data
                         // System.out.println(temp);
-                        temp = Math.abs(((temp + .01) * this.classProbability.get(k)));
+                        temp = Math.abs(Math.log((temp + .01) * this.classProbability.get(k)));
                         //System.out.println("here");
                         //  System.out.println(temp);
                         if (temp > max) {
@@ -105,7 +106,7 @@ public class NB_Tan {
 
         this.tanGraph.get(0).setVisited();
         this.maxSpan.add(this.tanGraph.remove(0));
-        
+
         // find the max weight between two edges.
         // Add nodes to spanTree and mark them as visited, continue until all are visited
         while (unvis) {
@@ -128,7 +129,74 @@ public class NB_Tan {
             temp = 0;
         }
 
-        
-        System.out.println(this.maxSpan.get(0).neighbors.size());
+        classify();
     }
+
+    public void classify() {
+
+        // we need to create a tree from random node. Traverse to find classificiation
+        Random rand = new Random();
+        int rando = rand.nextInt((int) this.maxSpan.get(0).neighbors.size()) + 1;
+
+        // pick root, remove it from neighbors list
+        Node root = this.maxSpan.get(0).neighbors.get(rando);
+        //this.maxSpan.get(0).leftChild = root;
+        this.maxSpan.get(0).neighbors.remove(rando);
+
+        Tree tree = new Tree(root);
+
+        //build tree
+        for (int i = 0; i < this.maxSpan.get(0).neighbors.size(); i++) {
+            tree.addNode(this.maxSpan.get(0).neighbors.get(i));
+        }
+        // for debugging;
+        //tree.inOrder();
+
+        // Now use NB to classify from tree,
+        // We built the tree using the training set consisting of the second half of the tanGraph. This is 
+        // handled in NB, so we don't need to do it here too
+        List<Node> test = this.tanGraph.subList(0, this.tanGraph.size() / 2);
+
+        int c = 0;
+        int housej = 0;
+        if (this.file.equals("house-votes-84.data.txt")) {
+            housej = 1;
+        }
+        for (int k = 0; k < test.size(); k++) {
+            double max = 0;
+            double temp = 0;
+            for (int j = housej; j < test.get(k).inputData.size() - 1; j++) {
+                temp = findMax(test, Integer.parseInt(test.get(k).inputData.get(j)), j);
+                
+                if ( temp > max){
+                    max = temp;
+                }
+            }
+            //System.out.println(max);
+            //tree.inOrder();
+          tree.findClass(max, test.get(k).inputData, tree, test);
+          
+        }
+        tree.getWinLoss();
+    }
+
+    
+    public double findMax(List<Node> g, int d, int a) {
+        double max = 0;
+        int c = 0;
+
+        for (int i = 0; i < this.classList.size(); i++) {
+            double temp = this.attributeProb.get(i).get(a)[d] * this.classProbability.get(i);
+            //handle smoothing for 0 probabilities
+            if (temp == 0) {
+                temp = .001 * this.classProbability.get(i);
+            }
+            if (temp > max) {
+                max = temp;
+                c = i;
+            }
+        }
+        return max;
+    }
+
 }

@@ -61,7 +61,7 @@ public class Machine_learning {
 
         PreProcess preProcess = new PreProcess();
         ArrayList<Node> data = new ArrayList<>();
-        try (FileReader process = new FileReader(files[1])) {
+        try (FileReader process = new FileReader(files[2])) {
             Scanner scan = new Scanner(process);
             scan.useDelimiter("\n");
 
@@ -73,17 +73,17 @@ public class Machine_learning {
             }
             process.close();
 
-            preProcess.missingValues(data, files[1]);
+            preProcess.missingValues(data, files[2]);
             // Do this for all files
-            preProcess.discretize(files[1], data);
+            preProcess.discretize(files[2], data);
             preProcess.shuffle(data);
-            preProcess.stratify(files[1], data);
+            preProcess.stratify(files[2], data);
 
         }
 //        NearestNeighbor nn = new NearestNeighbor(data, files[1]);
 //        nn.setNNData();
 //        
-        NB_Tan nbt = new NB_Tan(data, files[1]);
+        NB_Tan nbt = new NB_Tan(data, files[2]);
         nbt.prepareGraph();
         
         //ArrayList<Node> test;
