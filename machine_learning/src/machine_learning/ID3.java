@@ -274,17 +274,23 @@ public class ID3 {
         double entropy;
         double ig;
         double iv;
+        double temp = 0;
         
         // For each attribute
         if (attList.size() == 1) {
             return attList.get(0);
         } else {
             for (int i = 0; i < attList.size(); i++) {
+                // compute I(class)
                 for (int j = 0; j < d.size(); j++) {
-                    
+                    d.get(j).inputData.get(i);
                 }
+                // compute entropy of the attribute
+                
             }            
         }
+        
+        
 
         // compute information gain
         
