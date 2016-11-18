@@ -275,8 +275,17 @@ public class ID3 {
         double ig;
         double iv;
         
-        // compute entropy
-        
+        // For each attribute
+        if (attList.size() == 1) {
+            return attList.get(0);
+        } else {
+            for (int i = 0; i < attList.size(); i++) {
+                for (int j = 0; j < d.size(); j++) {
+                    
+                }
+            }            
+        }
+
         // compute information gain
         
         // compute intrinsic value
