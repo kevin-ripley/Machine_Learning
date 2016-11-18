@@ -404,7 +404,15 @@ public class ID3 {
     }
 
     private void testTree() {
-
+        // ran out of time... but this would look something like
+        for (int i = 0; i < test.size(); i++) {
+            // get index to split on
+            // while node has children find child to compare at next level
+            // if node.getChildren() == null assign class
+            // compare class to actual class
+            // if same assign 1 for ith item in the test set
+            // if class != actual class assign 0 to ith item in the test set
+        }
     }
 
     public void printlist() {
